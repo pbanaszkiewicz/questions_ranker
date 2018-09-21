@@ -1,0 +1,5 @@
+[run]
+include = questions_ranker/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
