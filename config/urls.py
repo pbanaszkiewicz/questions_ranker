@@ -1,12 +1,13 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+from ranker import views as ranker_views
+
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     # path(
     #     "about/",
     #     TemplateView.as_view(template_name="pages/about.html"),
@@ -22,8 +23,16 @@ urlpatterns = [
     #     include("questions_ranker.users.urls", namespace="users"),
     # ),
 
+    # login-related stuff
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+
+    # ranker views
+    path("", ranker_views.home, name="home"),
+    re_path(
+        r'^rank/(?P<hash_id>[a-z0-9]+)/$',
+        ranker_views.rank,
+        name="rank",
+    ),
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
