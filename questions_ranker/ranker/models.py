@@ -54,14 +54,31 @@ class AuthoredMixin(models.Model):
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 
+
+class Category(CreatedUpdatedMixin, AuthoredMixin, models.Model):
+    name = models.CharField(
+        null=False, blank=False,
+        max_length=255,
+        verbose_name=_("Category name"),
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Question(ActiveMixin, CreatedUpdatedMixin, AuthoredMixin, models.Model):
     """A simple question model.
 
     "Some questions don't need answers" - somebody."""
-    content = models.CharField(
-        null=False, blank=False,
-        max_length=255,
+    content = models.TextField(
+        blank=False,
         verbose_name=_("Question content"),
+    )
+
+    category = models.ForeignKey(
+        Category, on_delete=models.PROTECT,
+        blank=False,
+        verbose_name=_("Question category")
     )
 
     def __str__(self):
@@ -69,12 +86,24 @@ class Question(ActiveMixin, CreatedUpdatedMixin, AuthoredMixin, models.Model):
         if len(self.content) > 50:
             title = "{}...".format(self.content[:50])
 
-        return "Question #{}: {}".format(self.pk, title)
+        return "Question #{} (cat. {}): {}".format(self.pk, str(self.category),
+                                                   title)
 
 
-class Ranking(CreatedUpdatedMixin, AuthoredMixin, models.Model):
+class Ranking(CreatedUpdatedMixin, models.Model):
     """A ranking, ie. list of questions with their rank, contributed by
     a user."""
+    hash_id = models.CharField(
+        null=False, blank=False, unique=True,
+        max_length=255,
+        verbose_name=_("Unique hash"),
+    )
+    stage = models.PositiveIntegerField(
+        null=False, blank=False, default=0,
+        verbose_name=_("Completion stage"),
+        help_text=_("0 - not started, 1 - first set completed, "
+                    "2 - second set completed")
+    )
     entries = models.ManyToManyField(
         Question, through='RankingEntry',
     )
@@ -91,17 +120,26 @@ class RankingEntry(models.Model):
         verbose_name=_("Ranking"),
     )
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE,
+        Question, on_delete=models.PROTECT,
         null=False, blank=False,
         verbose_name=_("Question"),
     )
-    rank = models.PositiveIntegerField(
+    RANK_CHOICES = (
+        ('essential', _("Essential")),
+        ('worthwhile', _("Worthwhile")),
+        ('unimportant', _("Unimportant")),
+        ('unwise', _("Unwise")),
+        ('dont_understand', _("I don't understand")),
+    )
+    rank = models.CharField(
         null=False, blank=False,
+        max_length=255,
+        choices=RANK_CHOICES,
         verbose_name=_("Selected rank"),
     )
-    trial_round = models.PositiveIntegerField(
+    trial_stage = models.PositiveIntegerField(
         null=False, blank=False,
-        verbose_name=_("Trial round"),
+        verbose_name=_("Trial stage"),
         help_text=_("Number of round of questions"),
     )
 
