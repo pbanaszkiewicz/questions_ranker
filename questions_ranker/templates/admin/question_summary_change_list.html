@@ -13,22 +13,37 @@
         </th>
         <th>
           <div class="text">
-            <a href="#">Average rank</a>
+            <a href="#">Category</a>
           </div>
         </th>
         <th>
           <div class="text">
-            <a href="#">Min rank</a>
+            <a href="#">Essential</a>
           </div>
         </th>
         <th>
           <div class="text">
-            <a href="#">Max rank</a>
+            <a href="#">Worthwhile</a>
           </div>
         </th>
         <th>
           <div class="text">
-            <a href="#">No. of rankings</a>
+            <a href="#">Unimportant</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Unwise</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Don't understand</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Total</a>
           </div>
         </th>
       </tr>
@@ -38,9 +53,12 @@
       {% for q in summary %}
       <tr class="{% cycle 'row1' 'row2' %}">
         <td>{{ q.content }}</td>
-        <td>{{ q.avg_rank | floatformat | intcomma }}</td>
-        <td>{{ q.min_rank | intcomma }}</td>
-        <td>{{ q.max_rank | intcomma }}</td>
+        <td>{{ q.category }}</td>
+        <td>{{ q.essential_count }} ({% widthratio q.essential_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.worthwhile_count }} ({% widthratio q.worthwhile_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.unimportant_count }} ({% widthratio q.unimportant_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.unwise_count }} ({% widthratio q.unwise_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.dont_understand_count }} ({% widthratio q.dont_understand_count q.total_ranks 100 %} %)</td>
         <td>{{ q.total_ranks }}</td>
       </tr>
       {% endfor %}

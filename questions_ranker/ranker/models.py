@@ -65,6 +65,10 @@ class Category(CreatedUpdatedMixin, AuthoredMixin, models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
+
 
 class Question(ActiveMixin, CreatedUpdatedMixin, AuthoredMixin, models.Model):
     """A simple question model.
@@ -109,7 +113,7 @@ class Ranking(CreatedUpdatedMixin, models.Model):
     )
 
     def __str__(self):
-        return "User <{}> ranking #{}".format(str(self.author), self.pk)
+        return "Ranking #{} ({})".format(self.pk, self.hash_id)
 
 
 class RankingEntry(models.Model):
