@@ -36,11 +36,6 @@ class EntryInlineAdmin(admin.TabularInline):
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    # fields = [
-    #     'author',
-    #     'entries',
-    # ]
-    inlines = (EntryInlineAdmin, )
 
 
 @admin.register(QuestionSummary)
@@ -86,7 +81,10 @@ class QuestionSummaryAdmin(admin.ModelAdmin):
                 'rankingentry__pk',
                 filter=Q(rankingentry__rank='dont_understand'),
             ),
-            'total_ranks': Count('rankingentry__pk'),
+            'total_ranks': Count(
+                'rankingentry__pk',
+                filter=Q(rankingentry__rank__isnull=False),
+            ),
         }
 
         response.context_data['summary'] = (
