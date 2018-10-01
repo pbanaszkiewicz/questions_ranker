@@ -90,8 +90,7 @@ class Question(ActiveMixin, CreatedUpdatedMixin, AuthoredMixin, models.Model):
         if len(self.content) > 50:
             title = "{}...".format(self.content[:50])
 
-        return "Question #{} (cat. {}): {}".format(self.pk, str(self.category),
-                                                   title)
+        return "Question #{}: {}".format(self.pk, title)
 
 
 class Ranking(CreatedUpdatedMixin, models.Model):
@@ -107,6 +106,18 @@ class Ranking(CreatedUpdatedMixin, models.Model):
         verbose_name=_("Completion stage"),
         help_text=_("0 - not started, 1 - first set completed, "
                     "2 - second set completed")
+    )
+    category_stage1 = models.ForeignKey(
+        Category, on_delete=models.PROTECT,
+        null=True, blank=True, default=None,
+        verbose_name=_("Stage 1 category (randomly chosen)"),
+        related_name='ranking_stage1',
+    )
+    category_stage2 = models.ForeignKey(
+        Category, on_delete=models.PROTECT,
+        null=True, blank=True, default=None,
+        verbose_name=_("Stage 2 category (randomly chosen)"),
+        related_name='ranking_stage2',
     )
     entries = models.ManyToManyField(
         Question, through='RankingEntry',
@@ -136,12 +147,12 @@ class RankingEntry(models.Model):
         ('dont_understand', _("I don't understand")),
     )
     rank = models.CharField(
-        null=False, blank=False,
+        null=True, blank=False,
         max_length=255,
         choices=RANK_CHOICES,
         verbose_name=_("Selected rank"),
     )
-    trial_stage = models.PositiveIntegerField(
+    stage = models.PositiveIntegerField(
         null=False, blank=False,
         verbose_name=_("Trial stage"),
         help_text=_("Number of round of questions"),
