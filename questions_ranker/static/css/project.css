@@ -11,3 +11,10 @@
   background-color: #f2dede;
   border-color: #eed3d7;
 }
+
+table#ranking tbody tr td {
+  cursor: pointer;
+}
+table#ranking tbody tr td:hover {
+  background-color: #DDD;
+}
