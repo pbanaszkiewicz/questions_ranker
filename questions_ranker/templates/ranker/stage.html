@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-12">
+  <p class="text-center">Welcome text!</p>
+</div>
+<div class="col-12">
+  <form method="POST">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table id="ranking" class="table table-bordered table-hover">
+      <thead>
+        <tr class="table-active">
+          <th>Question</th>
+          <th>Essential</th>
+          <th>Worthwhile</th>
+          <th>Unimportant</th>
+          <th>Unwise</th>
+          <th>Don't understand</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in formset %}
+        <tr>
+          {{ entry.id }}
+          <th>
+            {{ entry.instance.question.content }}
+            {% if entry.rank.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.rank.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.rank.1.tag }}</td>
+          <td>{{ entry.rank.2.tag }}</td>
+          <td>{{ entry.rank.3.tag }}</td>
+          <td>{{ entry.rank.4.tag }}</td>
+          <td>{{ entry.rank.5.tag }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="form-actions">
+      <input type="submit" name="submit" value="Save" class="btn btn-primary" id="submit-save">
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+  $(function() {
+    $("table#ranking td").click(function (event) {
+      if (event.target.type !== 'radio') {
+        $('input:radio', this).trigger('click');
+      }
+    });
+  });
+</script>
+{% endblock %}

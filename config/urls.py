@@ -30,8 +30,13 @@ urlpatterns = [
     path("", ranker_views.home, name="home"),
     re_path(
         r'^rank/(?P<hash_id>[a-z0-9]+)/$',
-        ranker_views.rank,
-        name="rank",
+        ranker_views.rank_start,
+        name="rank_start",
+    ),
+    re_path(
+        r'^rank/(?P<hash_id>[a-z0-9]+)/(?P<stage>\d+)/$',
+        ranker_views.rank_stage,
+        name="rank_stage",
     ),
 
 ] + static(
