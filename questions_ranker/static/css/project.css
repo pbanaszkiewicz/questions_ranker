@@ -18,3 +18,12 @@ table#ranking tbody tr td {
 table#ranking tbody tr td:hover {
   background-color: #DDD;
 }
+
+form .invalid-feedback {
+    display: block;
+    margin-bottom: 0rem;
+}
+
+form .col-form-label {
+    font-weight: bold;
+}
