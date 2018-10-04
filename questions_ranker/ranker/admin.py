@@ -30,12 +30,25 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class EntryInlineAdmin(admin.TabularInline):
     model = Ranking.entries.through
-    extra = 5
+    extra = 0
+    can_delete = False
+    readonly_fields = ['question', 'rank', 'stage']
+
+    def has_add_permission(self, *args, **kwargs):
+        return False
+
+    def has_delete_permission(self, *args, **kwargs):
+        return False
+
+    def has_change_permission(self, *args, **kwargs):
+        return False
 
 
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
+    readonly_fields = ['category_stage1', 'category_stage2']
+    inlines = [EntryInlineAdmin]
 
 
 @admin.register(QuestionSummary)
