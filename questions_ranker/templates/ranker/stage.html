@@ -2,7 +2,17 @@
 
 {% block content %}
 <div class="col-12">
-  <p class="text-center">Welcome text!</p>
+  <p>Suppose a researcher was going to explore questions that are important to you about how computing is taught or learned. What questions would you like answered? Why do you want to know? What would you do with the answers?</p>
+
+  <p>Here are some example questions to give you an idea of what we are looking for:</p>
+
+  <p>Will teaching children Scratch before teaching them Python or Java help them learn the latter faster?</p>
+
+  <p>What is the most important thing that students finishing a four-year degree still don't understand about computing?</p>
+
+  <p>Is there any way to predict how well someone will do in their first programming course if they've never programmed before?</p>
+
+  <p>Which concepts are the most problematic for adults teaching themselves programming on the job, and does the answer depend on age, gender, or socioeconomic background?</p>
 </div>
 <div class="col-12">
   <form method="POST">
@@ -42,6 +52,7 @@
         {% endfor %}
       </tbody>
     </table>
+    <p style="font-size: 1.2rem">By clicking "Save" you indicate your consent for the use of your answers in the study.</p>
     <div class="form-actions">
       <input type="submit" name="submit" value="Save" class="btn btn-primary" id="submit-save">
     </div>
