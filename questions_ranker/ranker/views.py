@@ -105,8 +105,9 @@ def rank_start(request, hash_id):
 
     # show [start] button page
     context = {
-        'title': _("Start your ranking"),
+        'title': _("Questions for Computing Education Researchers"),
         'hash_id': hash_id,
+        'page_header': _("Survey"),
     }
     return render(request, "ranker/start.html", context)
 
@@ -166,10 +167,13 @@ def rank_stage(request, hash_id, stage):
     else:
         formset = RankingEntryFormset(queryset=entries_stage)
 
+    page_header = _("Page {} of 4").format(ranking.stage + 1)
+
     context = {
-        'title': _("Rank these questions!"),
+        'title': _("Questions for Computing Education Researchers"),
         'hash_id': hash_id,
         'formset': formset,
+        'page_header': page_header,
     }
 
     return render(request, "ranker/stage.html", context)
