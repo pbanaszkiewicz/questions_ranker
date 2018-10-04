@@ -104,8 +104,11 @@ class Ranking(CreatedUpdatedMixin, models.Model):
     stage = models.PositiveIntegerField(
         null=False, blank=False, default=0,
         verbose_name=_("Completion stage"),
-        help_text=_("0 - not started, 1 - first set completed, "
-                    "2 - second set completed")
+        help_text=_("0 - not started, "
+                    "1 - answered email, "
+                    "2 - first set completed, "
+                    "3 - second set completed, "
+                    "4 - answered geodata")
     )
     category_stage1 = models.ForeignKey(
         Category, on_delete=models.PROTECT,
@@ -124,7 +127,11 @@ class Ranking(CreatedUpdatedMixin, models.Model):
     )
 
     def __str__(self):
-        return "Ranking #{} ({})".format(self.pk, self.hash_id)
+        return "Person ranking #{} ({})".format(self.pk, self.hash_id)
+
+    class Meta:
+        verbose_name = "Person ranking"
+        verbose_name_plural = "Person rankings"
 
 
 class RankingEntry(models.Model):
@@ -159,8 +166,35 @@ class RankingEntry(models.Model):
     )
 
     class Meta:
-        verbose_name = "Ranking entry"
-        verbose_name_plural = "Ranking entries"
+        verbose_name = _("Ranking entry")
+        verbose_name_plural = _("Ranking entries")
+
+
+class DrawEntry(models.Model):
+    email = models.EmailField(
+        null=False, blank=True, default="",
+        verbose_name="E-mail address",
+        help_text="Provide if you want to enter the draw or to receive"
+                  " paper(s) about this study."
+    )
+    BOOLEAN_CHOICES = (
+        (True, _("Yes")),
+        (False, _("No")),
+    )
+    draw = models.BooleanField(
+        null=False, blank=False, default=False,
+        choices=BOOLEAN_CHOICES,
+        verbose_name="I want to take part in the draw",
+    )
+    paper = models.BooleanField(
+        null=False, blank=False, default=False,
+        choices=BOOLEAN_CHOICES,
+        verbose_name="I want to receive the paper(s) about this study",
+    )
+
+    class Meta:
+        verbose_name = _("Draw entry")
+        verbose_name_plural = _("Draw entries")
 
 
 class QuestionSummary(Question):
