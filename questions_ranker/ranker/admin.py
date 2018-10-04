@@ -7,6 +7,7 @@ from .models import (
     Ranking,
     QuestionSummary,
     RankingEntry,
+    DrawEntry,
 )
 
 
@@ -109,3 +110,17 @@ class QuestionSummaryAdmin(admin.ModelAdmin):
         response.context_data['title'] = _("Summary of questions")
 
         return response
+
+
+@admin.register(DrawEntry)
+class DrawEntryAdmin(admin.ModelAdmin):
+    readonly_fields = ['email', 'draw', 'paper']
+
+    def has_add_permission(self, *args, **kwargs):
+        return False
+
+    def has_delete_permission(self, *args, **kwargs):
+        return False
+
+    def has_change_permission(self, *args, **kwargs):
+        return False
