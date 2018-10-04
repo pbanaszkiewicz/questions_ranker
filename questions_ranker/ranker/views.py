@@ -14,6 +14,8 @@ from .models import (
 
 from .forms import (
     RankingEntryForm,
+    DrawEntryForm,
+    RankingGeoForm,
 )
 
 
@@ -71,7 +73,7 @@ def rank_start(request, hash_id):
                             ranking=ranking,
                             question=question,
                             rank=None,
-                            stage=1,
+                            stage=2,
                         )
                         for question in questions
                     ])
@@ -93,7 +95,7 @@ def rank_start(request, hash_id):
                             ranking=ranking,
                             question=question,
                             rank=None,
-                            stage=2,
+                            stage=3,
                         )
                         for question in questions
                     ])
@@ -112,6 +114,100 @@ def rank_start(request, hash_id):
     return render(request, "ranker/start.html", context)
 
 
+def rank_email(request, hash_id):
+    """Display draw entry form, save potential email address in the database."""
+    stage = 1
+    ranking = get_object_or_404(
+        Ranking,
+        hash_id=hash_id,
+        stage=stage - 1,
+        category_stage1__isnull=False,
+        category_stage2__isnull=False,
+    )
+
+    if request.method == "POST":
+        form = DrawEntryForm(request.POST)
+
+        if form.is_valid():
+            # accept user entry
+            obj = form.save()
+            # increment stage in ranking
+            obj.stage = stage
+            obj.save()
+
+            messages.success(request,
+                             _("Thank you for completing first stage of the ranking."))
+
+            return redirect(
+                reverse('rank_stage', args=[hash_id, stage + 1]),
+            )
+
+        else:
+            messages.error(request, _("Fix errors in the form below."),
+                           extra_tags="danger")
+
+    else:
+        form = DrawEntryForm()
+
+    page_header = _("Page {} of 4").format(1)
+
+    context = {
+        'title': _("Questions for Computing Education Researchers"),
+        'hash_id': hash_id,
+        'form': form,
+        'page_header': page_header,
+    }
+
+    return render(request, "ranker/email.html", context)
+
+
+def rank_geo(request, hash_id):
+    """Display geo-related data form, save as part of ranking entry object."""
+    stage = 4
+    ranking = get_object_or_404(
+        Ranking,
+        hash_id=hash_id,
+        stage=stage - 1,
+        category_stage1__isnull=False,
+        category_stage2__isnull=False,
+    )
+
+    if request.method == "POST":
+        form = RankingGeoForm(request.POST, instance=ranking)
+
+        if form.is_valid():
+            # accept user entry
+            form.save()
+            # increment stage in ranking
+            ranking.stage = stage
+            ranking.save()
+
+            messages.success(request,
+                             _("Thank you for completing last stage of the ranking."))
+
+            return redirect(
+                reverse('rank_stage', args=[hash_id, stage + 1]),
+            )
+
+        else:
+            messages.error(request, _("Fix errors in the form below."),
+                           extra_tags="danger")
+
+    else:
+        form = RankingGeoForm(instance=ranking)
+
+    page_header = _("Page {} of 4").format(4)
+
+    context = {
+        'title': _("Questions for Computing Education Researchers"),
+        'hash_id': hash_id,
+        'form': form,
+        'page_header': page_header,
+    }
+
+    return render(request, "ranker/geo.html", context)
+
+
 def rank_stage(request, hash_id, stage):
     """Show questionnaire for selected stage; validate stage number."""
     try:
@@ -119,8 +215,14 @@ def rank_stage(request, hash_id, stage):
     except (TypeError, ValueError):
         raise Http404("Unable to parse `stage` from URL.")
 
-    if stage >= 3:
+    # ensure correct stage value
+    # this view accepts only 2 and 3
+    if stage < 1 or stage > 4:
         return redirect(reverse('rank_start', args=[hash_id]))
+    elif stage == 1:
+        return redirect(reverse('rank_email', args=[hash_id]))
+    elif stage == 4:
+        return redirect(reverse('rank_geo', args=[hash_id]))
 
     ranking = get_object_or_404(
         Ranking.objects.select_related('category_stage1', 'category_stage2')
@@ -154,7 +256,7 @@ def rank_stage(request, hash_id, stage):
             ranking.stage = stage
             ranking.save()
             messages.success(request,
-                             _("Thank you for completing the ranking."))
+                             _("Thank you for the answers."))
 
             return redirect(
                 reverse('rank_stage', args=[hash_id, stage + 1]),

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-12">
+  <p>We are studying the questions that computing instructors think that computing education researchers should investigate. We will ask you some questions about the types of CS teaching you have done and your opinions about where researchers should invest their time. Your participation should take about 5-10 minutes and we would like to enter your name into a random draw for $250 USD as a thank you. Your odds of winning will be at least 1 in 200. We would also be happy to send you the results of the research once it is completed. We do not believe that there are any risks to you as a participant.</p>
+</div>
+<div class="col-12">
+  {% crispy form %}
+</div>
+{% endblock %}
+

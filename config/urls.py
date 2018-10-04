@@ -41,6 +41,18 @@ urlpatterns = [
         ranker_views.rank_start,
         name="rank_start",
     ),
+    # special case of stage for answering email, draw and paper questions
+    re_path(
+        r'^rank/(?P<hash_id>[a-z0-9]+)/1/$',
+        ranker_views.rank_email,
+        name="rank_email",
+    ),
+    # special case of stage for answering geodata
+    re_path(
+        r'^rank/(?P<hash_id>[a-z0-9]+)/4/$',
+        ranker_views.rank_geo,
+        name="rank_geo",
+    ),
     re_path(
         r'^rank/(?P<hash_id>[a-z0-9]+)/(?P<stage>\d+)/$',
         ranker_views.rank_stage,
