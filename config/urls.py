@@ -28,10 +28,13 @@ urlpatterns = [
 
     # ranker views
     path("", ranker_views.home, name="home"),
-    path(
-        "data_privacy_policy/",
-        TemplateView.as_view(template_name="pages/data_privacy_policy.html"),
-        name="data_privacy_policy",
+    path("rank/",
+         TemplateView.as_view(template_name="pages/rank.html"),
+         name="rank_page",
+    ),
+    path("data_privacy_policy/",
+         TemplateView.as_view(template_name="pages/data_privacy_policy.html"),
+         name="data_privacy_policy",
     ),
     re_path(
         r'^rank/(?P<hash_id>[a-z0-9]+)/$',
