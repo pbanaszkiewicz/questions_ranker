@@ -126,6 +126,113 @@ class Ranking(CreatedUpdatedMixin, models.Model):
         Question, through='RankingEntry',
     )
 
+    TIME_SPENT_CHOICES = (
+        ('none', _("None")),
+        ('tens', _("Tens of hours")),
+        ('hundreds', _("Hundreds of hours")),
+        ('primary', _("Primary activity")),
+    )
+    teaching_children_in_schools = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching children in schools?"),
+    )
+    teaching_teens_in_schools = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching teens in schools?"),
+    )
+    teaching_students = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching college/university students?"),
+    )
+    teaching_adults = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching adults in workplaces (e.g. staff training)?"),
+    )
+    teaching_children_free_range = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching children in free-range programs (i.e. "
+                       "outside traditional classrooms)?"),
+    )
+    teaching_teens_free_range = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching teens in free-range programs (i.e. "
+                       "outside traditional classrooms)?"),
+    )
+    teaching_adults_free_range = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=TIME_SPENT_CHOICES,
+        verbose_name=_("How much time you have spent in the last five years "
+                       "teaching adults in free-range programs (i.e. "
+                       "outside traditional classrooms)?"),
+    )
+
+    DAILY_ACCESS_CHOICES = (
+        ('none', _("None")),
+        ('quarter', _("Less than a quarter")),
+        ('quertertothree', _("One quarter to three quarters")),
+        ('morethanthree', _("More than three quarters")),
+    )
+    daily_home_computer = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=DAILY_ACCESS_CHOICES,
+        verbose_name=_("What fraction of your learners has daily access to "
+                       "laptop or computer at home?"),
+    )
+    daily_school_computer = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=DAILY_ACCESS_CHOICES,
+        verbose_name=_("What fraction of your learners has daily access to "
+                       "school or library computer?"),
+    )
+    daily_smartphone = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=DAILY_ACCESS_CHOICES,
+        verbose_name=_("What fraction of your learners has daily access to "
+                       "tablet or smartphone?"),
+    )
+    daily_broadband = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=DAILY_ACCESS_CHOICES,
+        verbose_name=_("What fraction of your learners has daily access to "
+                       "high-speed / broadband internet?"),
+    )
+    daily_lowspeed = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=DAILY_ACCESS_CHOICES,
+        verbose_name=_("What fraction of your learners has daily access to "
+                       "only low-speed internet?"),
+    )
+
+    PERSONAL_INVOLVEMENT_CHOICES = (
+        ('none', _("I have no involvement.")),
+        ('rare', _("I sometimes read results from studies or go to "
+                   "presentations but don't do any research myself.")),
+        ('regular', _("I regularly read results from studies or go to "
+                      "presentations but don't do any research myself.")),
+        ('occasional', _("I occasionally dabble in computing education "
+                         "research myself.")),
+        ('primary', _("Computing education research is my primary occuption.")),
+    )
+    comp_research_involvement = models.CharField(
+        null=False, blank=False, default="", max_length=50,
+        choices=PERSONAL_INVOLVEMENT_CHOICES,
+        verbose_name=_("How involved you are personally in "
+                       "computing education research?"),
+        help_text=_("Select the option that best describes you."),
+    )
+
     def __str__(self):
         return "Person ranking #{} ({})".format(self.pk, self.hash_id)
 
