@@ -15,7 +15,7 @@ from .models import (
 from .forms import (
     RankingEntryForm,
     DrawEntryForm,
-    RankingGeoForm,
+    RankingDemographicForm,
 )
 
 
@@ -37,6 +37,7 @@ def rank_start(request, hash_id):
     if ranking.stage >= 2:
         context = {
             'title': _("Thank you for participation"),
+            'page_header': _("Thank you!"),
         }
         return render(request, "ranker/thankyou.html", context)
 
@@ -161,8 +162,8 @@ def rank_email(request, hash_id):
     return render(request, "ranker/email.html", context)
 
 
-def rank_geo(request, hash_id):
-    """Display geo-related data form, save as part of ranking entry object."""
+def rank_demographic(request, hash_id):
+    """Display demographic questions form, save as part of ranking entry object."""
     stage = 4
     ranking = get_object_or_404(
         Ranking,
@@ -173,7 +174,7 @@ def rank_geo(request, hash_id):
     )
 
     if request.method == "POST":
-        form = RankingGeoForm(request.POST, instance=ranking)
+        form = RankingDemographicForm(request.POST, instance=ranking)
 
         if form.is_valid():
             # accept user entry
@@ -194,7 +195,7 @@ def rank_geo(request, hash_id):
                            extra_tags="danger")
 
     else:
-        form = RankingGeoForm(instance=ranking)
+        form = RankingDemographicForm(instance=ranking)
 
     page_header = _("Page {} of 4").format(4)
 
@@ -205,7 +206,7 @@ def rank_geo(request, hash_id):
         'page_header': page_header,
     }
 
-    return render(request, "ranker/geo.html", context)
+    return render(request, "ranker/demographic.html", context)
 
 
 def rank_stage(request, hash_id, stage):
@@ -222,7 +223,7 @@ def rank_stage(request, hash_id, stage):
     elif stage == 1:
         return redirect(reverse('rank_email', args=[hash_id]))
     elif stage == 4:
-        return redirect(reverse('rank_geo', args=[hash_id]))
+        return redirect(reverse('rank_demographic', args=[hash_id]))
 
     ranking = get_object_or_404(
         Ranking.objects.select_related('category_stage1', 'category_stage2')

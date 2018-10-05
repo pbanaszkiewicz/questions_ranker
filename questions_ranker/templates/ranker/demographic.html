@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-12">
+  <p style="font-size: 1.5rem;">To help us understand more about you and your students, please consider
+  answering questions below.</p>
+</div>
+<div class="col-12">
+  <form class="form-horizontal" method="POST">
+    {% csrf_token %}
+
+    <h5>To give us an idea of the kinds of teaching you're involved in, please indicate how much time you have spent in the last five years doing each of the following:</h5>
+    <table class="table table-bordered table-hover ranking">
+      <thead>
+        <tr class="table-active">
+          <th width="30%"></th>
+          <th>None</th>
+          <th>Tens of hours</th>
+          <th>Hundreds of hours</th>
+          <th>Primary activity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% with entry=form.teaching_children_in_schools %}
+        <tr>
+          <th>
+            teaching children in schools?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_teens_in_schools %}
+        <tr>
+          <th>
+            teaching teens in schools?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_students %}
+        <tr>
+          <th>
+            teaching college/university students?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_adults %}
+        <tr>
+          <th>
+            teaching adults in workplaces (e.g. staff training)?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_children_free_range %}
+        <tr>
+          <th>
+            teaching children in free-range programs (i.e. outside traditional classrooms)?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_teens_free_range %}
+        <tr>
+          <th>
+            teaching teens in free-range programs?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.teaching_adults_free_range %}
+        <tr>
+          <th>
+            teaching adults in free-range programs?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h5>To help us understand more about your students, please indicate the fraction of your learners that have daily access to the following:</h5>
+    <table class="table table-bordered table-hover ranking">
+      <thead>
+        <tr class="table-active">
+          <th width="30%"></th>
+          <th>None</th>
+          <th>Less than a quarter</th>
+          <th>One quarter to three quarters</th>
+          <th>More than three quarters</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% with entry=form.daily_home_computer %}
+        <tr>
+          <th>
+            laptop or computer at home?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.daily_school_computer %}
+        <tr>
+          <th>
+            school or library computer?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.daily_smartphone %}
+        <tr>
+          <th>
+            tablet or smartphone?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.daily_broadband %}
+        <tr>
+          <th>
+            high-speed / broadband internet?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+
+        {% with entry=form.daily_lowspeed %}
+        <tr>
+          <th>
+            only low-speed internet?
+            {% if entry.errors %}
+            <small><ul class="text-danger">
+              {% for error in entry.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul></small>
+            {% endif %}
+          </th>
+          <td>{{ entry.0.tag }}</td>
+          <td>{{ entry.1.tag }}</td>
+          <td>{{ entry.2.tag }}</td>
+          <td>{{ entry.3.tag }}</td>
+        </tr>
+        {% endwith %}
+      </tbody>
+    </table>
+
+    <hr>
+
+    {{ form.comp_research_involvement|as_crispy_field }}
+
+    <div class="form-group row">
+      <div class="aab col-lg-2"></div>
+      <div class="col-lg-10">
+        <input name="submit" value="Save" class="btn btn-primary" id="submit-id-submit" type="submit">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+  $(function() {
+    $("table.ranking td").click(function (event) {
+      if (event.target.type !== 'radio') {
+        $('input:radio', this).trigger('click');
+      }
+    });
+  });
+</script>
+{% endblock %}

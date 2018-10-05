@@ -30,6 +30,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ranking',
             name='stage',
-            field=models.PositiveIntegerField(default=0, help_text='0 - not started, 1 - answered email, 2 - first set completed, 3 - second set completed, 4 - answered geodata', verbose_name='Completion stage'),
+            field=models.PositiveIntegerField(default=0, help_text='0 - not started, 1 - answered email, 2 - first set completed, 3 - second set completed, 4 - answered demographic', verbose_name='Completion stage'),
         ),
     ]

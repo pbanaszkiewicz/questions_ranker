@@ -108,7 +108,7 @@ class Ranking(CreatedUpdatedMixin, models.Model):
                     "1 - answered email, "
                     "2 - first set completed, "
                     "3 - second set completed, "
-                    "4 - answered geodata")
+                    "4 - answered demographic")
     )
     category_stage1 = models.ForeignKey(
         Category, on_delete=models.PROTECT,

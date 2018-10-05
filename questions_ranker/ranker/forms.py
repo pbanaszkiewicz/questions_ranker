@@ -31,7 +31,7 @@ class RankingEntryForm(forms.ModelForm):
         }
 
 
-class RankingGeoForm(forms.ModelForm):
+class RankingDemographicForm(forms.ModelForm):
     helper = Bootstrap4Helper()
 
     class Meta:
