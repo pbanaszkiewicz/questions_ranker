@@ -18,7 +18,7 @@
   <form method="POST">
     {% csrf_token %}
     {{ formset.management_form }}
-    <table id="ranking" class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover ranking">
       <thead>
         <tr class="table-active">
           <th>Question</th>
@@ -63,7 +63,7 @@
 {% block extrajs %}
 <script type="text/javascript">
   $(function() {
-    $("table#ranking td").click(function (event) {
+    $("table.ranking td").click(function (event) {
       if (event.target.type !== 'radio') {
         $('input:radio', this).trigger('click');
       }
