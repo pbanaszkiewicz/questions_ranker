@@ -133,8 +133,8 @@ def rank_email(request, hash_id):
             # accept user entry
             obj = form.save()
             # increment stage in ranking
-            obj.stage = stage
-            obj.save()
+            ranking.stage = stage
+            ranking.save()
 
             messages.success(request,
                              _("Thank you for completing first stage of the ranking."))
@@ -178,10 +178,10 @@ def rank_demographic(request, hash_id):
 
         if form.is_valid():
             # accept user entry
-            form.save()
+            obj = form.save()
             # increment stage in ranking
-            ranking.stage = stage
-            ranking.save()
+            obj.stage = stage
+            obj.save()
 
             messages.success(request,
                              _("Thank you for completing last stage of the ranking."))
