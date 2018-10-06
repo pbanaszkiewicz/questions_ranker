@@ -80,8 +80,10 @@ AWS_S3_OBJECT_PARAMETERS = {
 # STATIC
 # ------------------------
 
-STATICFILES_STORAGE = 'config.settings.production.StaticRootS3Boto3Storage'
-STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
+#STATICFILES_STORAGE = 'config.settings.production.StaticRootS3Boto3Storage'
+#STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATIC_URL = '/static/'
 
 # MEDIA
 # ------------------------------------------------------------------------------
