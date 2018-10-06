@@ -48,7 +48,22 @@ class EntryInlineAdmin(admin.TabularInline):
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    readonly_fields = ['category_stage1', 'category_stage2']
+    readonly_fields = [
+        'teaching_children_in_schools',
+        'teaching_teens_in_schools',
+        'teaching_students',
+        'teaching_adults',
+        'teaching_children_free_range',
+        'teaching_teens_free_range',
+        'teaching_adults_free_range',
+        'daily_home_computer',
+        'daily_school_computer',
+        'daily_smartphone',
+        'daily_broadband',
+        'daily_lowspeed',
+        'comp_research_involvement',
+        'category_stage1', 'category_stage2',
+    ]
     inlines = [EntryInlineAdmin]
 
 
