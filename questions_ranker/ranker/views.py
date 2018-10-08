@@ -264,7 +264,8 @@ def rank_stage(request, hash_id, stage):
             )
 
         else:
-            messages.error(request, _("Fix errors in the form below."),
+            messages.error(request,
+                           _("Please rank all of the questions provided."),
                            extra_tags="danger")
 
     else:
