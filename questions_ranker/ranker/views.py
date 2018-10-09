@@ -203,7 +203,7 @@ def rank_demographic(request, hash_id):
             )
 
         else:
-            messages.error(request, _("Fix errors in the form below."),
+            messages.error(request, _("Please answer all questions."),
                            extra_tags="danger")
 
     else:
@@ -268,8 +268,25 @@ def rank_stage(request, hash_id, stage):
             # update ranking stage
             ranking.stage = stage
             ranking.save()
-            messages.success(request,
-                             _("Thank you for the answers."))
+
+            if stage == 2:
+                messages.success(
+                    request,
+                    _("Thank you for submitting your rankings to the previous "
+                      "set of questions."),
+                )
+            elif stage == 3:
+                messages.success(
+                    request,
+                    _("Thank you for submitting your rankings to the "
+                      "questions. On this final page of the survey, we would "
+                      "like to understand more about you and your students."),
+                )
+            else:
+                messages.success(
+                    request,
+                    _("Thank you for the answers."),
+                )
 
             return redirect(
                 reverse('rank_stage', args=[hash_id, stage + 1]),
