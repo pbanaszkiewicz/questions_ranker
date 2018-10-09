@@ -33,15 +33,20 @@ def rank_start(request, hash_id):
         hash_id=hash_id,
     )
 
-    # if ranking stage is >=2, show the "thank you" page
-    if ranking.stage >= 2:
+    # if ranking stage is >=4, show the "thank you" page
+    if ranking.stage >= 4:
         context = {
             'title': _("Thank you for participation"),
             'page_header': _("Thank you!"),
         }
         return render(request, "ranker/thankyou.html", context)
 
-    elif not ranking.category_stage1 or not ranking.category_stage2:
+    elif ranking.stage > 0:
+        next_stage = ranking.stage + 1
+        return redirect(reverse('rank_stage',
+                                args=[hash_id, next_stage]))
+
+    if not ranking.category_stage1 or not ranking.category_stage2:
         # generate categories and questions
         # make sure there are selected categories for both stages
         categories_used_pk = []
