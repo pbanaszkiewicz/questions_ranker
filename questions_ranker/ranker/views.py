@@ -156,12 +156,16 @@ def rank_email(request, hash_id):
         form = DrawEntryForm()
 
     page_header = _("Page {} of 4").format(1)
+    questions_num = ranking.entries.count()
+    categories_num = 2
 
     context = {
         'title': _("Questions for Computing Education Researchers"),
         'hash_id': hash_id,
         'form': form,
         'page_header': page_header,
+        'questions_num': questions_num,
+        'categories_num': categories_num,
     }
 
     return render(request, "ranker/email.html", context)
