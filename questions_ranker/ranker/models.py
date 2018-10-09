@@ -234,7 +234,9 @@ class Ranking(CreatedUpdatedMixin, models.Model):
     )
 
     def __str__(self):
-        return "Person ranking #{} ({})".format(self.pk, self.hash_id)
+        return "Person ranking #{} ({}, compl. stage {})".format(
+            self.pk, self.hash_id, self.stage,
+        )
 
     class Meta:
         verbose_name = "Person ranking"
