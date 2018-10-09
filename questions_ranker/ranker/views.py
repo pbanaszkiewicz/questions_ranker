@@ -141,8 +141,11 @@ def rank_email(request, hash_id):
             ranking.stage = stage
             ranking.save()
 
-            messages.success(request,
-                             _("Thank you for completing first stage of the ranking."))
+            messages.success(
+                request,
+                _("Thank you for getting started - the following pages list "
+                  "the questions we would like you to prioritize."),
+            )
 
             return redirect(
                 reverse('rank_stage', args=[hash_id, stage + 1]),
