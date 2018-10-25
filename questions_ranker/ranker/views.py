@@ -28,8 +28,7 @@ def rank_start(request, hash_id):
     """Generate questions for the ranking; show [start] button.
     If the ranking is complete, show the thank-you page."""
     ranking = get_object_or_404(
-        Ranking.objects.select_related('category_stage1', 'category_stage2')
-                       .prefetch_related('entries'),
+        Ranking.objects.prefetch_related('entries'),
         hash_id=hash_id,
     )
 
@@ -127,8 +126,6 @@ def rank_email(request, hash_id):
         Ranking,
         hash_id=hash_id,
         stage=stage - 1,
-        category_stage1__isnull=False,
-        category_stage2__isnull=False,
     )
 
     if request.method == "POST":
@@ -181,8 +178,6 @@ def rank_demographic(request, hash_id):
         Ranking,
         hash_id=hash_id,
         stage=stage - 1,
-        category_stage1__isnull=False,
-        category_stage2__isnull=False,
     )
 
     if request.method == "POST":
@@ -238,12 +233,9 @@ def rank_stage(request, hash_id, stage):
         return redirect(reverse('rank_demographic', args=[hash_id]))
 
     ranking = get_object_or_404(
-        Ranking.objects.select_related('category_stage1', 'category_stage2')
-                       .prefetch_related('entries'),
+        Ranking.objects.prefetch_related('entries'),
         hash_id=hash_id,
         stage=stage - 1,
-        category_stage1__isnull=False,
-        category_stage2__isnull=False,
     )
 
     entries_stage = (

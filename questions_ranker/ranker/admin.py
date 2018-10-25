@@ -62,7 +62,6 @@ class RankingAdmin(admin.ModelAdmin):
         'daily_broadband',
         'daily_lowspeed',
         'comp_research_involvement',
-        'category_stage1', 'category_stage2',
     ]
     inlines = [EntryInlineAdmin]
 
