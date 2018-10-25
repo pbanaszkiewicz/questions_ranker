@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         {% for entry in formset %}
-        <tr>
+        <tr class="{% if entry.rank.errors %}table-danger{% endif %}">
           {{ entry.id }}
           <th>
             {{ entry.instance.question.content }}
