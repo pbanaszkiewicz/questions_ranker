@@ -1,7 +1,15 @@
+import random
+
 from django.contrib import messages
+from django.db import transaction
 from django.forms import modelformset_factory
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    get_list_or_404,
+    redirect,
+)
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
@@ -24,6 +32,7 @@ def home(request):
     return render(request, "pages/home.html")
 
 
+@transaction.atomic
 def rank_start(request, hash_id):
     """Generate questions for the ranking; show [start] button.
     If the ranking is complete, show the thank-you page."""
@@ -45,70 +54,37 @@ def rank_start(request, hash_id):
         return redirect(reverse('rank_stage',
                                 args=[hash_id, next_stage]))
 
-    if not ranking.category_stage1 or not ranking.category_stage2:
-        # generate categories and questions
-        # make sure there are selected categories for both stages
-        categories_used_pk = []
-        if ranking.category_stage1:
-            categories_used_pk.append(ranking.category_stage1.pk)
-        if ranking.category_stage2:
-            categories_used_pk.append(ranking.category_stage2.pk)
+    # pick questions at random and assign them to the user
+    q_ids = Question.objects.filter(active=True).values_list('pk', flat=True)
 
-        if len(categories_used_pk) < 2:
-            categories_pk = Category.objects.exclude(pk__in=categories_used_pk) \
-                                            .values_list('pk', flat=True) \
-                                            .order_by('?')
-            categories_iter = iter(categories_pk)
+    try:
+        # randomly choose 2*20 ids
+        random_ids = random.sample(list(q_ids), 2*20)
+    except ValueError:
+        raise Http404("Not enough questions to choose from.")
 
-            try:
-                if not ranking.category_stage1:
-                    ranking.category_stage1 = Category.objects.get(
-                        pk=next(categories_iter)
-                    )
-
-                    # save questions within the ranking as well
-                    questions = Question.objects.filter(
-                        category=ranking.category_stage1,
-                        active=True,
-                    ).order_by('?')
-
-                    # create an M2M link (through-table entry)
-                    RankingEntry.objects.bulk_create([
-                        RankingEntry(
-                            ranking=ranking,
-                            question=question,
-                            rank=None,
-                            stage=2,
-                        )
-                        for question in questions
-                    ])
-
-                if not ranking.category_stage2:
-                    ranking.category_stage2 = Category.objects.get(
-                        pk=next(categories_iter)
-                    )
-
-                    # save questions within the ranking as well
-                    questions = Question.objects.filter(
-                        category=ranking.category_stage2,
-                        active=True,
-                    ).order_by('?')
-
-                    # create an M2M link (through-table entry)
-                    RankingEntry.objects.bulk_create([
-                        RankingEntry(
-                            ranking=ranking,
-                            question=question,
-                            rank=None,
-                            stage=3,
-                        )
-                        for question in questions
-                    ])
-
-                ranking.save()
-
-            except StopIteration:
-                raise Http404("Not enough categories to choose from.")
+    # questions in stage 1
+    # create an M2M link (through-table entry)
+    RankingEntry.objects.bulk_create([
+        RankingEntry(
+            ranking=ranking,
+            question_id=question_id,
+            rank=None,
+            stage=1,
+        )
+        for question_id in random_ids[:20]
+    ])
+    # questions in stage 2
+    # create an M2M link (through-table entry)
+    RankingEntry.objects.bulk_create([
+        RankingEntry(
+            ranking=ranking,
+            question_id=question_id,
+            rank=None,
+            stage=2,
+        )
+        for question_id in random_ids[20:]
+    ])
 
     # show [start] button page
     context = {
@@ -240,9 +216,11 @@ def rank_stage(request, hash_id, stage):
 
     entries_stage = (
         ranking.rankingentry_set
-            .filter(stage=ranking.stage + 1)
+            .filter(stage=ranking.stage)
             .select_related('question', 'question__category')
     )
+    if not entries_stage:
+        raise Http404("No questions matching this ranking.")
 
     # build a Formset with initial questions
     RankingEntryFormset = modelformset_factory(
