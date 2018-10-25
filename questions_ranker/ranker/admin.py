@@ -83,41 +83,25 @@ class QuestionSummaryAdmin(admin.ModelAdmin):
         except (AttributeError, KeyError):
             return response
 
-        assert RankingEntry.RANK_CHOICES[0][0] == 'essential'
-        assert RankingEntry.RANK_CHOICES[1][0] == 'worthwhile'
-        assert RankingEntry.RANK_CHOICES[2][0] == 'unimportant'
-        assert RankingEntry.RANK_CHOICES[3][0] == 'unwise'
-        assert RankingEntry.RANK_CHOICES[4][0] == 'dont_understand'
-
+        # gather rank names from field's choices
+        ranks = [i[0] for i in RankingEntry.RANK_CHOICES]
+        # dict comprehension building annotation data
+        # FIELD_count: Count with filter on `rankingentry__rank`
         metrics = {
-            'essential_count': Count(
+            ('{}_count'.format(k)): Count(
                 'rankingentry__pk',
-                filter=Q(rankingentry__rank='essential'),
-            ),
-            'worthwhile_count': Count(
-                'rankingentry__pk',
-                filter=Q(rankingentry__rank='worthwhile'),
-            ),
-            'unimportant_count': Count(
-                'rankingentry__pk',
-                filter=Q(rankingentry__rank='unimportant'),
-            ),
-            'unwise_count': Count(
-                'rankingentry__pk',
-                filter=Q(rankingentry__rank='unwise'),
-            ),
-            'dont_understand_count': Count(
-                'rankingentry__pk',
-                filter=Q(rankingentry__rank='dont_understand'),
-            ),
-            'total_ranks': Count(
-                'rankingentry__pk',
-                filter=Q(rankingentry__rank__isnull=False),
-            ),
+                filter=Q(rankingentry__rank=k)
+            )
+            for k in ranks
         }
+        metrics['total_ranks'] = Count(
+            'rankingentry__pk',
+            filter=Q(rankingentry__rank__isnull=False),
+        )
 
         response.context_data['summary'] = (
             qs
+            .select_related('category')
             .annotate(**metrics)
             .order_by('category', 'pk')
         )

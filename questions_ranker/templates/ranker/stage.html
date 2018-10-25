@@ -12,10 +12,11 @@
       <thead>
         <tr class="table-active">
           <th>Question</th>
-          <th>Essential</th>
-          <th>Worthwhile</th>
+          <th>Very unimportant</th>
           <th>Unimportant</th>
-          <th>Unwise</th>
+          <th>Indifferent</th>
+          <th>Important</th>
+          <th>Very important</th>
           <th>Don't understand</th>
         </tr>
       </thead>
@@ -38,6 +39,7 @@
           <td>{{ entry.rank.3.tag }}</td>
           <td>{{ entry.rank.4.tag }}</td>
           <td>{{ entry.rank.5.tag }}</td>
+          <td>{{ entry.rank.6.tag }}</td>
         </tr>
         {% endfor %}
       </tbody>

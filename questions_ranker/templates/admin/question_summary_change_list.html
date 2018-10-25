@@ -18,13 +18,9 @@
         </th>
         <th>
           <div class="text">
-            <a href="#">Essential</a>
+            <a href="#">Very unimportant</a>
           </div>
         </th>
-        <th>
-          <div class="text">
-            <a href="#">Worthwhile</a>
-          </div>
         </th>
         <th>
           <div class="text">
@@ -33,7 +29,16 @@
         </th>
         <th>
           <div class="text">
-            <a href="#">Unwise</a>
+            <a href="#">Indifferent</a>
+          </div>
+        <th>
+          <div class="text">
+            <a href="#">Important</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Very important</a>
           </div>
         </th>
         <th>
@@ -54,10 +59,11 @@
       <tr class="{% cycle 'row1' 'row2' %}">
         <td>{{ q.content }}</td>
         <td>{{ q.category }}</td>
-        <td>{{ q.essential_count }} ({% widthratio q.essential_count q.total_ranks 100 %} %)</td>
-        <td>{{ q.worthwhile_count }} ({% widthratio q.worthwhile_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.vunimportant_count }} ({% widthratio q.vunimportant_count q.total_ranks 100 %} %)</td>
         <td>{{ q.unimportant_count }} ({% widthratio q.unimportant_count q.total_ranks 100 %} %)</td>
-        <td>{{ q.unwise_count }} ({% widthratio q.unwise_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.indifferent_count }} ({% widthratio q.indifferent_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.important_count }} ({% widthratio q.important_count q.total_ranks 100 %} %)</td>
+        <td>{{ q.vimportant_count }} ({% widthratio q.vimportant_count q.total_ranks 100 %} %)</td>
         <td>{{ q.dont_understand_count }} ({% widthratio q.dont_understand_count q.total_ranks 100 %} %)</td>
         <td>{{ q.total_ranks }}</td>
       </tr>
