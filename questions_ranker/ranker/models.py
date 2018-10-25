@@ -256,10 +256,11 @@ class RankingEntry(models.Model):
         verbose_name=_("Question"),
     )
     RANK_CHOICES = (
-        ('essential', _("Essential")),
-        ('worthwhile', _("Worthwhile")),
+        ('vunimportant', _("Very unimportant")),
         ('unimportant', _("Unimportant")),
-        ('unwise', _("Unwise")),
+        ('indifferent', _("Indifferent")),
+        ('important', _("Important")),
+        ('vimportant', _("Very important")),
         ('dont_understand', _("I don't understand")),
     )
     rank = models.CharField(
