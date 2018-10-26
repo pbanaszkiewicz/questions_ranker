@@ -25,7 +25,7 @@
         <tr class="{% if entry.rank.errors %}table-danger{% endif %}">
           {{ entry.id }}
           <th>
-            {{ entry.instance.question.content }}
+            {% if stage == 2 %}{{ forloop.counter }}.{% elif stage == 3%}{{ forloop.counter|add:20 }}.{% endif %} {{ entry.instance.question.content }}
             {% if entry.rank.errors %}
             <small><ul class="text-danger">
               {% for error in entry.rank.errors %}
@@ -41,6 +41,17 @@
           <td>{{ entry.rank.5.tag }}</td>
           <td>{{ entry.rank.6.tag }}</td>
         </tr>
+        {% if forloop.counter == 10 %}
+        <tr class="table-active">
+          <th>Question</th>
+          <th>Very unimportant</th>
+          <th>Unimportant</th>
+          <th>Indifferent</th>
+          <th>Important</th>
+          <th>Very important</th>
+          <th>Don't understand</th>
+        </tr>
+        {% endif %}
         {% endfor %}
       </tbody>
     </table>

@@ -116,8 +116,7 @@ def rank_email(request, hash_id):
 
             messages.success(
                 request,
-                _("Thank you for getting started - the following pages list "
-                  "the questions we would like you to prioritize."),
+                _("Questions 1-20 (out of 40)."),
             )
 
             return redirect(
@@ -242,8 +241,7 @@ def rank_stage(request, hash_id, stage):
             if stage == 2:
                 messages.success(
                     request,
-                    _("Thank you for submitting your rankings to the previous "
-                      "set of questions."),
+                    _("Questions 21-40 (out of 40)."),
                 )
             elif stage == 3:
                 messages.success(
@@ -277,6 +275,7 @@ def rank_stage(request, hash_id, stage):
         'hash_id': hash_id,
         'formset': formset,
         'page_header': page_header,
+        'stage': stage,
     }
 
     return render(request, "ranker/stage.html", context)

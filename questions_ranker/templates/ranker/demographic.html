@@ -4,14 +4,13 @@
 
 {% block content %}
 <div class="col-12">
-  <p style="font-size: 1.5rem;">To help us understand more about you and your students, please consider
-  answering questions below.</p>
+  <p style="font-size: 1.5rem;">To help us understand more about you and your students, please answer questions below.</p>
 </div>
 <div class="col-12">
   <form class="form-horizontal" method="POST">
     {% csrf_token %}
 
-    <h5>To give us an idea of the kinds of teaching you're involved in, please indicate how much time you have spent in the last five years doing each of the following:</h5>
+    <h5>Please indicate how much time you have spent in the last five years doing each of the following:</h5>
     <table class="table table-bordered table-hover ranking">
       <thead>
         <tr class="table-active">
@@ -26,7 +25,7 @@
         {% with entry=form.teaching_children_in_schools %}
         <tr>
           <th>
-            teaching children in schools?
+            teaching children in schools?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -45,7 +44,7 @@
         {% with entry=form.teaching_teens_in_schools %}
         <tr>
           <th>
-            teaching teens in schools?
+            teaching teens in schools?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -64,7 +63,7 @@
         {% with entry=form.teaching_students %}
         <tr>
           <th>
-            teaching college/university students?
+            teaching college/university students?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -83,7 +82,7 @@
         {% with entry=form.teaching_adults %}
         <tr>
           <th>
-            teaching adults in workplaces (e.g. staff training)?
+            teaching adults in workplaces (e.g. staff training)?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -102,7 +101,7 @@
         {% with entry=form.teaching_children_free_range %}
         <tr>
           <th>
-            teaching children in free-range programs (i.e. outside traditional classrooms)?
+            teaching children in free-range programs (i.e. outside traditional classrooms)?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -121,7 +120,7 @@
         {% with entry=form.teaching_teens_free_range %}
         <tr>
           <th>
-            teaching teens in free-range programs?
+            teaching teens in free-range programs?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -140,7 +139,7 @@
         {% with entry=form.teaching_adults_free_range %}
         <tr>
           <th>
-            teaching adults in free-range programs?
+            teaching adults in free-range programs?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -160,7 +159,7 @@
 
     <hr>
 
-    <h5>To help us understand more about your students, please indicate the fraction of your learners that have daily access to the following:</h5>
+    <h5>Please indicate the fraction of your learners that have daily access to the following:</h5>
     <table class="table table-bordered table-hover ranking">
       <thead>
         <tr class="table-active">
@@ -175,7 +174,7 @@
         {% with entry=form.daily_home_computer %}
         <tr>
           <th>
-            laptop or computer at home?
+            laptop or computer at home?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -194,7 +193,7 @@
         {% with entry=form.daily_school_computer %}
         <tr>
           <th>
-            school or library computer?
+            school or library computer?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -213,7 +212,7 @@
         {% with entry=form.daily_smartphone %}
         <tr>
           <th>
-            tablet or smartphone?
+            tablet or smartphone?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -232,7 +231,7 @@
         {% with entry=form.daily_broadband %}
         <tr>
           <th>
-            high-speed / broadband internet?
+            high-speed / broadband internet?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}
@@ -251,7 +250,7 @@
         {% with entry=form.daily_lowspeed %}
         <tr>
           <th>
-            only low-speed internet?
+            only low-speed internet?*
             {% if entry.errors %}
             <small><ul class="text-danger">
               {% for error in entry.errors %}

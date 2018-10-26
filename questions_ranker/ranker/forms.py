@@ -21,6 +21,15 @@ class Bootstrap4Helper(FormHelper):
         self.add_input(Submit(submit_name, submit_label))
 
 
+class Bootstrap4HelperNonHorizontal(FormHelper):
+    def __init__(self, submit_name='submit', submit_label=_("Save")):
+        super().__init__()
+        self.form_class = ''
+        self.label_class = ''
+        self.field_class = ''
+        self.add_input(Submit(submit_name, submit_label))
+
+
 class RankingEntryForm(forms.ModelForm):
     class Meta:
         fields = ('rank', )
@@ -57,7 +66,7 @@ class DrawEntryForm(forms.ModelForm):
 
 
 class RankingDemographicForm(forms.ModelForm):
-    helper = Bootstrap4Helper()
+    helper = Bootstrap4HelperNonHorizontal()
 
     class Meta:
         fields = (
