@@ -1,6 +1,6 @@
 import csv
 from django.db import transaction
-from ranker.models import Category, Question
+from ranker.models import Category, Question, Ranking
 from questions_ranker.users.models import User
 
 
@@ -28,3 +28,16 @@ def bulk_add_questions(filename, update=False):
                 )
             results.append(res)
     return results
+
+
+@transaction.atomic
+def bulk_add_rankings(filename, update=False):
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+        Ranking.objects.bulk_create(
+            [
+                Ranking(hash_id=line.strip(), stage=0)
+                for line in lines
+                if line
+            ]
+        )
