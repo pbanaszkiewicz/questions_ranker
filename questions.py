@@ -1,6 +1,6 @@
 import csv
 from django.db import transaction
-from questions_ranker.ranker.models import Category, Question
+from ranker.models import Category, Question
 from questions_ranker.users.models import User
 
 
