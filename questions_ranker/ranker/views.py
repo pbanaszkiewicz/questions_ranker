@@ -54,37 +54,38 @@ def rank_start(request, hash_id):
         return redirect(reverse('rank_stage',
                                 args=[hash_id, next_stage]))
 
-    # pick questions at random and assign them to the user
-    q_ids = Question.objects.filter(active=True).values_list('pk', flat=True)
+    if not ranking.rankingentry_set.all():
+        # pick questions at random and assign them to the user
+        q_ids = Question.objects.filter(active=True).values_list('pk', flat=True)
 
-    try:
-        # randomly choose 2*20 ids
-        random_ids = random.sample(list(q_ids), 2*20)
-    except ValueError:
-        raise Http404("Not enough questions to choose from.")
+        try:
+            # randomly choose 2*20 ids
+            random_ids = random.sample(list(q_ids), 2*20)
+        except ValueError:
+            raise Http404("Not enough questions to choose from.")
 
-    # questions in stage 1
-    # create an M2M link (through-table entry)
-    RankingEntry.objects.bulk_create([
-        RankingEntry(
-            ranking=ranking,
-            question_id=question_id,
-            rank=None,
-            stage=1,
-        )
-        for question_id in random_ids[:20]
-    ])
-    # questions in stage 2
-    # create an M2M link (through-table entry)
-    RankingEntry.objects.bulk_create([
-        RankingEntry(
-            ranking=ranking,
-            question_id=question_id,
-            rank=None,
-            stage=2,
-        )
-        for question_id in random_ids[20:]
-    ])
+        # questions in stage 1
+        # create an M2M link (through-table entry)
+        RankingEntry.objects.bulk_create([
+            RankingEntry(
+                ranking=ranking,
+                question_id=question_id,
+                rank=None,
+                stage=1,
+            )
+            for question_id in random_ids[:20]
+        ])
+        # questions in stage 2
+        # create an M2M link (through-table entry)
+        RankingEntry.objects.bulk_create([
+            RankingEntry(
+                ranking=ranking,
+                question_id=question_id,
+                rank=None,
+                stage=2,
+            )
+            for question_id in random_ids[20:]
+        ])
 
     # show [start] button page
     context = {
