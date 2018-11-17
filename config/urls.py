@@ -28,13 +28,19 @@ urlpatterns = [
 
     # ranker views
     path("", ranker_views.home, name="home"),
-    path("rank/",
-         TemplateView.as_view(template_name="pages/rank.html"),
-         name="rank_page",
-    ),
     path("data_privacy_policy/",
          TemplateView.as_view(template_name="pages/data_privacy_policy.html"),
          name="data_privacy_policy",
+    ),
+    # Below matches all `/rank/*` requests, therefore overwrites other URLs;
+    # this way we can easily close the survey for responders.
+    re_path(r'^rank/',
+            TemplateView.as_view(template_name="ranker/thankyou2.html"),
+            name="thankyou",
+    ),
+    path("rank/",
+         TemplateView.as_view(template_name="pages/rank.html"),
+         name="rank_page",
     ),
     re_path(
         r'^rank/(?P<hash_id>[a-z0-9]+)/$',
